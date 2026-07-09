@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@source "../**/*.{html,php}";
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #1d1c1d;
+  --color-card: #ffffff;
+  --color-card-foreground: #1d1c1d;
+  --color-primary: #007a5a;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f8f8f8;
+  --color-secondary-foreground: #1d1c1d;
+  --color-muted: #e8e8e8;
+  --color-muted-foreground: #616061;
+  --color-accent: #ecb22e;
+  --color-accent-foreground: #1d1c1d;
+  --color-destructive: #e01e5a;
+  --color-destructive-foreground: #ffffff;
+  --color-border: rgba(29, 28, 29, 0.13);
+  --color-input-background: #f8f8f8;
+  --color-sidebar: #3f0e40;
+  --color-sidebar-foreground: #cfc3cf;
+  --color-sidebar-accent: #350d36;
+  --color-sidebar-accent-foreground: #ffffff;
+  --color-sidebar-border: rgba(255, 255, 255, 0.1);
+  --color-sidebar-ring: #ecb22e;
+  --font-family-lato: "Lato", sans-serif;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-family-lato);
+}
+
+.font-lato {
+  font-family: var(--font-family-lato);
+}
+
+/* Sidebar custom styles */
+.sidebar-text {
+  color: #cfc3cf;
+}
+
+.sidebar-text-active {
+  color: #ffffff;
+}
+
+.sidebar-hover-bg:hover {
+  background-color: #350d36;
+  color: #ffffff;
+}
+
+.sidebar-active {
+  background-color: #350d36;
+  color: #ffffff;
+}
+
+/* Scrollbar hiding */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Transitions */
+.transition-width {
+  transition: width 250ms ease;
+}
+
+/* Filter button active state */
+.filter-btn-active {
+  background-color: #007a5a !important;
+  color: #ffffff !important;
+}
