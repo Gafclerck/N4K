@@ -25,6 +25,7 @@ class AuthController extends AbstractController
         }
         return self::$instance;
     }
+
     public function authRequired(): void
     {
         if (!Session::isConnected()) {

@@ -25,6 +25,27 @@ class GroupeRepo extends AbstractRepo
         return $result;
     }
 
+    public function selectById(int $id): ?Groupe
+    {
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare("SELECT * FROM {$this->tableName} WHERE id = :id");
+        $stmt->execute(["id" => $id]);
+        $obj = $stmt->fetchObject($this->className);
+        $this->db->closeConnection();
+        return $obj === false ? null : $obj;
+    }
+
+    public function selectByCode(int $groupId, string $code): ?Groupe
+    {
+        $pdo = $this->db->getConnection();
+        $sql = "SELECT * FROM {$this->tableName} WHERE id = :id AND code = :code";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id' => $groupId, 'code' => $code]);
+        $result = $stmt->fetchObject($this->className);
+        $this->db->closeConnection();
+        return $result === false ? null : $result;
+    }
+
     public function insertWithCreator(Groupe $groupe, int $userId, TypeMembre $role): ?int
     {
         $pdo = $this->db->getConnection();

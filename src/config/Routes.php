@@ -21,6 +21,7 @@ $router->get('/logout', 'AuthController@logout');
 $router->get('/groupes', 'GroupeController@voirsGroupes');
 $router->get('/groupes/create', 'GroupeController@createGroupe');
 $router->post('/groupes/create', 'GroupeController@createGroupe');
+$router->post('/groupes/join', 'GroupeController@joinGroupe');
 
 // FAVORIS
 $router->get("/favoris", 'UserController@favoris');

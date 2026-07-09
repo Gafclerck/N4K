@@ -4,8 +4,10 @@ namespace App\services;
 
 use App\config\Session;
 use App\Entity\Groupe;
+use App\entity\Membre;
 use App\entity\TypeMembre;
 use App\repository\GroupeRepo;
+use App\repository\MembreRepo;
 use \DateTime;
 
 class GroupeService
@@ -42,5 +44,30 @@ class GroupeService
         $user = Session::getCurrentUser();
         if (!$user) return [];
         return $this->groupeRepo->selectGroupesByUser($user->getId());
+    }
+
+    public function joinGroup(int $groupId, string | null $code, int $userId): array
+    {
+        $groupe = $this->groupeRepo->selectById($groupId);
+        if (!$groupe) {
+            return ['success' => false, 'error' => 'Groupe introuvable.'];
+        }
+
+        if ($groupe->getVisibilite() === 'Prive' && $groupe->getCode() !== $code) {
+            return ['success' => false, 'error' => "Code d'accès invalide."];
+        }
+
+        $membreRepo = new MembreRepo();
+        $existing = $membreRepo->selectByGroupeUser($userId, $groupId);
+        if ($existing) {
+            return ['success' => false, 'error' => 'Vous êtes déjà membre de ce groupe.'];
+        }
+
+        $membre = new Membre();
+        $membre->setGroupeId($groupId);
+        $membre->setUserId($userId);
+        $membre->setTypeMembre(TypeMembre::MEMBRE);
+        $membreRepo->insert($membre);
+        return ['success' => true];
     }
 }

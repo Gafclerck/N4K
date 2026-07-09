@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 
+use App\Config\Session;
 use App\Config\Validator;
 use App\controllers\AbstractController;
 use App\entity\Groupe;
@@ -28,8 +29,36 @@ class GroupeController extends AbstractController
     public function joinGroupe()
     {
         if ($this->request->isPost()) {
+            $groupId = (int)$this->request->post('group_id');
+            $code = $this->request->post('access_code');
+            $result = $this->groupeService->joinGroup(
+                $groupId,
+                $code,
+                Session::getCurrentUser()->getId()
+            );
+            if ($result['success']) {
+                $this->redirect('/groupes');
+                exit;
+            }
+
+            $groupes = $this->groupeService->getAllGroupes() ?? [];
+            $joinGroup = null;
+            foreach ($groupes as $g) {
+                if ((int)$g->getId() === $groupId) {
+                    $joinGroup = $g;
+                    break;
+                }
+            }
+
+            $this->render('groupes', [
+                'groupes' => $groupes,
+                'joinGroup' => $joinGroup,
+                'joinErrors' => [$result['error']],
+            ]);
+            exit;
         }
-        $this->render('includes/modale-rejoindre');
+
+        $this->redirect('/groupes');
     }
     public function voirsGroupes()
     {

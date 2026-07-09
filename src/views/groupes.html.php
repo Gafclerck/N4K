@@ -5,9 +5,6 @@ use App\config\Session;
 $page = "groupes";
 $pageTitle = "Groupes - N4K";
 
-//$groupes = $GLOBALS['INITIAL_GROUPS'];
-$myGroups = array_filter($groupes, fn($g) => $g->getAdminId() == Session::getCurrentUser()->getId());
-
 $filter = $_GET['filter'] ?? 'all';
 $search = $_GET['q'] ?? '';
 
@@ -20,11 +17,12 @@ $filtered = array_filter($groupes, function ($g) use ($filter, $q) {
 $filtered = array_values($filtered);
 
 $showCreateModal = ($showCreateModal ?? $_GET['modal'] ?? '') === 'create';
-$joinGroup = null;
-if (($_GET['join'] ?? '')) {
+$joinGroup = $joinGroup ?? null;
+$joinErrors = $joinErrors ?? [];
+if ($joinGroup === null && ($_GET['join'] ?? '')) {
   $joinId = $_GET['join'];
   foreach ($groupes as $g) {
-    if ($g->getId() === $joinId && $g->getVisibilite() === 'Prive' && !in_array($g->getId(), getMyGroupIds())) {
+    if ($g->getId() === $joinId && !in_array($g->getId(), getMyGroupIds())) {
       $joinGroup = $g;
       break;
     }
@@ -89,7 +87,7 @@ if (($_GET['join'] ?? '')) {
               <!-- To be replaced by dynanmic content -->
               <p class="text-muted-foreground mb-3" style="font-size:12px;"><?= /*$g["members"]*/ 124 ?> membre</p>
               <!-- // A corriger apre -->
-              <?php if ($g->getAdminId() === Session::getCurrentUser()->getId()): ?>
+              <?php if (in_array($g->getId(), getMyGroupIds())): ?>
                 <span class="block w-full text-center py-1.5 rounded-lg font-medium" style="font-size:13px;background-color:#f2f2f2;color:#007a5a;">
                   <i class="fas fa-user-check" style="font-size:13px;"></i> Membre
                 </span>
@@ -98,7 +96,7 @@ if (($_GET['join'] ?? '')) {
                   <i class="fas fa-lock" style="font-size:12px;"></i> Rejoindre
                 </a>
               <?php else: ?>
-                <a href="#" class="block w-full text-center py-1.5 rounded-lg font-medium transition-opacity hover:opacity-90" style="font-size:13px;background-color:#007a5a;color:#ffffff;">
+                <a href="?join=<?= $g->getId() ?>" class="block w-full text-center py-1.5 rounded-lg font-medium transition-opacity hover:opacity-90" style="font-size:13px;background-color:#007a5a;color:#ffffff;">
                   Rejoindre
                 </a>
               <?php endif; ?>
