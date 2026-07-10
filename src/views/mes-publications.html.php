@@ -2,18 +2,16 @@
 $page = "mes-publications";
 $pageTitle = "Mes publications — N4K";
 
-$resources = $GLOBALS["INITIAL_RESOURCES"];
-$myGroupIds = getMyGroupIds();
-$myGroups = array_filter($GLOBALS["INITIAL_GROUPS"], fn($g) => in_array($g->getId(), $myGroupIds));
+$ressources = $ressources ?? [];
+$mine = $ressources;
 
 $typeFilter = $_GET['type'] ?? '';
 $search = $_GET['q'] ?? '';
 
-$mine = array_filter($resources, fn($r) => $r->getAuteur()->getNom() === 'Amadou Diallo');
 $q = strtolower($search);
 $filtered = array_filter($mine, function ($r) use ($typeFilter, $q) {
   if ($typeFilter && $r->getType()->value !== $typeFilter) return false;
-  if ($q && !str_contains(strtolower($r->getTitre()), $q) && !str_contains(strtolower($r->getMatiere()->getNom()), $q)) return false;
+  if ($q && !str_contains(strtolower($r->getTitre()), $q)) return false;
   return true;
 });
 $filtered = array_values($filtered);

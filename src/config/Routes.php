@@ -22,10 +22,20 @@ $router->get('/groupes', 'GroupeController@voirsGroupes');
 $router->get('/groupes/create', 'GroupeController@createGroupe');
 $router->post('/groupes/create', 'GroupeController@createGroupe');
 $router->post('/groupes/join', 'GroupeController@joinGroupe');
+$router->get('/groupe/{id}', 'GroupeController@voirGroupe');
 
 // FAVORIS
 $router->get("/favoris", 'UserController@favoris');
 
-//PUBLICATIONS
-$router->get("/mes-publications", 'UserController@mesPubs');
-$router->get("/publier", 'UserController@publier');
+// PUBLICATIONS
+$router->get("/publier", 'RessourceController@publier');
+$router->post("/publier", 'RessourceController@publier');
+
+$router->get("/groupe/{id}/publier", 'RessourceController@publierDansGroupe');
+$router->post("/groupe/{id}/publier", 'RessourceController@publierDansGroupe');
+
+$router->get("/mes-ressources", 'RessourceController@voirMesRessources');
+$router->get("/mes-publications", 'RessourceController@voirMesRessources');
+$router->get("/groupe/{id}/ressources", 'RessourceController@voirRessourcesByGroup');
+$router->get("/ressource/{id}/download", 'RessourceController@download');
+$router->get("/ressource/{id}/view", 'RessourceController@view');

@@ -39,6 +39,11 @@ class GroupeService
         return $this->groupeRepo->selectAll();
     }
 
+    public function getGroupeById(int $id): ?Groupe
+    {
+        return $this->groupeRepo->selectById($id);
+    }
+
     public function getGroupesByCurrentUser(): array
     {
         $user = Session::getCurrentUser();

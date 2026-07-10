@@ -1,6 +1,12 @@
 <?php
 $tc = $GLOBALS['TYPE_COLORS'][$r->getType()->value];
 $pinned = $r->isPinned();
+$hasFile = $r->getFilepath() !== null;
+$previewable = $hasFile && in_array($r->getMimeType(), [
+  'application/pdf',
+  'image/jpeg', 'image/png', 'image/gif',
+  'video/mp4',
+]);
 ?>
 <div class="px-5 py-4 transition-colors duration-150" style="border-left:3px solid transparent;">
   <div class="flex items-start justify-between gap-3 mb-2">
@@ -9,8 +15,14 @@ $pinned = $r->isPinned();
         <i class="fas <?= typeIconClass($r->getType()->value) ?>" style="font-size:11px;"></i>
         <?= $r->getType()->value ?>
       </span>
+      <?php if ($hasFile): ?>
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded font-medium" style="background-color:#e8e8e8;color:#1d1c1d;font-size:10px;">
+          <i class="fas <?= fileIconClass($r->getMimeType()) ?>" style="font-size:10px;margin-right:3px;"></i>
+          <?= fileExtension($r->getMimeType()) ?>
+        </span>
+      <?php endif; ?>
       <span class="text-muted-foreground truncate" style="font-size:12px;">
-        <?= htmlspecialchars($r->getMatiere()->getNom()) ?> · <?= htmlspecialchars($r->getGroupe()->getNom()) ?>
+        <?= htmlspecialchars($r->getMatiere()?->getNom() ?? 'Sans matière') ?> · <?= htmlspecialchars($r->getGroupe()?->getNom() ?? 'Public') ?>
       </span>
     </div>
     <div class="flex items-center gap-2 flex-shrink-0">
@@ -30,12 +42,26 @@ $pinned = $r->isPinned();
         <?= htmlspecialchars($r->getTitre()) ?>
       </h3>
       <p class="text-muted-foreground mb-2" style="font-size:12px;">
-        <span class="font-medium" style="color:#007a5a;"><?= htmlspecialchars($r->getAuteur()->getNom()) ?></span>
+        <span class="font-medium" style="color:#007a5a;"><?= htmlspecialchars($r->getAuteur()?->getNom() ?? 'Anonyme') ?></span>
         — <?= htmlspecialchars($r->getDescription()) ?>
       </p>
       <div class="flex items-center gap-4 text-muted-foreground" style="font-size:12px;">
         <span class="flex items-center gap-1"><i class="fas fa-eye" style="font-size:12px;"></i> <?= $r->getViews() ?></span>
         <span class="flex items-center gap-1"><i class="fas fa-download" style="font-size:12px;"></i> <?= $r->getDownloads() ?></span>
+        <?php if ($hasFile): ?>
+          <span class="flex items-center gap-1" style="color:#007a5a;">
+            <i class="fas <?= fileIconClass($r->getMimeType()) ?>" style="font-size:12px;"></i>
+            <?= formatFileSize($r->getFileSize()) ?>
+          </span>
+          <?php if ($previewable): ?>
+            <a href="/ressource/<?= $r->getId() ?>/view" class="flex items-center gap-1 hover:text-primary transition-colors" style="font-size:12px;color:#007a5a;">
+              <i class="fas fa-eye" style="font-size:12px;"></i> Voir
+            </a>
+          <?php endif; ?>
+          <a href="/ressource/<?= $r->getId() ?>/download" class="flex items-center gap-1 hover:text-primary transition-colors" style="font-size:12px;color:#007a5a;">
+            <i class="fas fa-download" style="font-size:12px;"></i> Télécharger
+          </a>
+        <?php endif; ?>
         <span class="flex items-center gap-1"><i class="fas fa-comment" style="font-size:12px;"></i> <?= count($r->getComments()) ?></span>
       </div>
     </div>

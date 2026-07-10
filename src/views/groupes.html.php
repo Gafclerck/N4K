@@ -70,9 +70,11 @@ if ($joinGroup === null && ($_GET['join'] ?? '')) {
           $in = initials($g->getNom());
         ?>
           <div class="bg-card border border-border rounded-xl overflow-hidden hover:shadow-md transition-shadow duration-150">
-            <div class="h-20 flex items-center justify-center" style="background-color:<?= $c ?>;">
-              <span class="text-white font-bold font-lato" style="font-size:28px;"><?= $in ?></span>
-            </div>
+            <a href="/groupe/<?= $g->getId() ?>">
+              <div class="h-20 flex items-center justify-center" style="background-color:<?= $c ?>;">
+                <span class="text-white font-bold font-lato" style="font-size:28px;"><?= $in ?></span>
+              </div>
+            </a>
             <div class="p-3">
               <div class="flex items-start justify-between gap-2 mb-1">
                 <p class="text-foreground font-semibold leading-snug" style="font-size:14px;"><?= htmlspecialchars($g->getNom()) ?></p>

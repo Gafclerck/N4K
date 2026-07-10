@@ -1,6 +1,7 @@
 <?php
 $tc = $GLOBALS['TYPE_COLORS'][$r->getType()->value];
 $pinned = $r->isPinned();
+$hasFile = $r->getFilepath() !== null;
 ?>
 <div class="px-4 py-3 hover:bg-[#f0faf6] transition-colors duration-150 cursor-pointer">
   <div class="flex items-start justify-between gap-2">
@@ -9,12 +10,17 @@ $pinned = $r->isPinned();
         <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-medium flex-shrink-0" style="background-color:<?= $tc["bg"] ?>;color:<?= $tc["text"] ?>;font-size:10px;">
           <?= $r->getType()->value ?>
         </span>
+        <?php if ($hasFile): ?>
+          <span style="font-size:10px;color:#007a5a;">
+            <i class="fas <?= fileIconClass($r->getMimeType()) ?>"></i>
+          </span>
+        <?php endif; ?>
       </div>
       <p class="text-foreground font-medium leading-snug truncate" style="font-size:13px;">
         <?= htmlspecialchars($r->getTitre()) ?>
       </p>
       <p class="text-muted-foreground" style="font-size:11px;">
-        <?= htmlspecialchars($r->getAuteur()->getNom()) ?> · <?= $r->getCreatedAt() ?>
+        <?= htmlspecialchars($r->getAuteur()?->getNom() ?? 'Anonyme') ?> · <?= $r->getCreatedAt() ?>
       </p>
     </div>
     <span class="mt-0.5 p-1 rounded flex-shrink-0" style="color:<?= $pinned ? '#ecb22e' : '#c0c0c0' ?>;">

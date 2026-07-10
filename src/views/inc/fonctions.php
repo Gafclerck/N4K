@@ -81,6 +81,51 @@ function typeIconClass($type)
   }
 }
 
+function fileIconClass(?string $mimeType): string
+{
+  return match ($mimeType) {
+    'application/pdf'                                                    => 'fa-file-pdf',
+    'application/msword'                                                 => 'fa-file-word',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'fa-file-word',
+    'application/vnd.ms-excel'                                           => 'fa-file-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'  => 'fa-file-excel',
+    'application/vnd.ms-powerpoint'                                      => 'fa-file-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'fa-file-powerpoint',
+    'image/jpeg', 'image/png', 'image/gif'                               => 'fa-file-image',
+    'video/mp4'                                                          => 'fa-file-video',
+    'application/zip', 'application/x-rar-compressed'                    => 'fa-file-archive',
+    default                                                              => 'fa-file',
+  };
+}
+
+function fileExtension(?string $mimeType): string
+{
+  return match ($mimeType) {
+    'application/pdf'                                                    => 'PDF',
+    'application/msword'                                                 => 'DOC',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'DOCX',
+    'application/vnd.ms-excel'                                           => 'XLS',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'  => 'XLSX',
+    'application/vnd.ms-powerpoint'                                      => 'PPT',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'PPTX',
+    'image/jpeg'                                                         => 'JPEG',
+    'image/png'                                                          => 'PNG',
+    'image/gif'                                                          => 'GIF',
+    'video/mp4'                                                          => 'MP4',
+    'application/zip'                                                    => 'ZIP',
+    'application/x-rar-compressed'                                       => 'RAR',
+    default                                                              => 'FICHIER',
+  };
+}
+
+function formatFileSize(?int $bytes): string
+{
+  if ($bytes === null) return '';
+  if ($bytes >= 1048576) return round($bytes / 1048576, 1) . ' Mo';
+  if ($bytes >= 1024)    return round($bytes / 1024, 1) . ' Ko';
+  return $bytes . ' o';
+}
+
 function getMyGroupIds(): array
 {
   if (!\App\config\Session::isConnected()) return [];

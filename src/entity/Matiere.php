@@ -19,6 +19,10 @@ class Matiere
     }
 
     // Getters
+    public function getId(): int
+    {
+        return $this->id;
+    }
     public function getNom()
     {
         return $this->nom;

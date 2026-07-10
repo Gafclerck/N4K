@@ -3,9 +3,12 @@ $page = "index";
 $pageTitle = "Accueil - N4K";
 
 $groups = $GLOBALS['INITIAL_GROUPS'];
-$resources = $GLOBALS['INITIAL_RESOURCES'];
 $myGroupIds = getMyGroupIds();
 $myGroups = array_filter($groups, fn($g) => in_array($g->getId(), $myGroupIds));
+
+$resources = $resources ?? [];
+$recentResources = $recentResources ?? [];
+$allMatieres = $allMatieres ?? [];
 
 $activeGroupId = $_GET['group'] ?? null;
 if ($activeGroupId) $activeGroupId = (int)$activeGroupId;
@@ -16,20 +19,11 @@ $search = $_GET['q'] ?? '';
 $q = strtolower($search);
 $feedResources = array_filter($resources, function ($r) use ($activeGroupId, $filterSubject, $filterType, $q) {
   if ($activeGroupId && $r->getGroupeId() !== $activeGroupId) return false;
-  if ($filterSubject && $r->getMatiere()->getNom() !== $filterSubject) return false;
   if ($filterType && $r->getType()->value !== $filterType) return false;
-  if (
-    $q && !str_contains(strtolower($r->getTitre()), $q)
-    && !str_contains(strtolower($r->getMatiere()->getNom()), $q)
-    && !str_contains(strtolower($r->getAuteur()->getNom()), $q)
-    && !str_contains(strtolower($r->getGroupe()->getNom()), $q)
-  ) return false;
+  if ($q && !str_contains(strtolower($r->getTitre()), $q)) return false;
   return true;
 });
 $feedResources = array_values($feedResources);
-
-$recentResources = array_slice($resources, 0, 8);
-$allSubjects = array_unique(array_map(fn($r) => $r->getMatiere()->getNom(), $resources));
 
 ?>
 
@@ -90,8 +84,8 @@ $allSubjects = array_unique(array_map(fn($r) => $r->getMatiere()->getNom(), $res
               class="bg-input-background border border-border rounded-md px-2 py-1 text-foreground outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
               style="font-size:13px;">
               <option value="">Toutes matières</option>
-              <?php foreach ($allSubjects as $s): ?>
-                <option value="<?= htmlspecialchars($s) ?>" <?= $filterSubject === $s ? 'selected' : '' ?>><?= htmlspecialchars($s) ?></option>
+              <?php foreach ($allMatieres as $m): ?>
+                <option value="<?= htmlspecialchars($m->getNom()) ?>" <?= $filterSubject === $m->getNom() ? 'selected' : '' ?>><?= htmlspecialchars($m->getNom()) ?></option>
               <?php endforeach; ?>
             </select>
             <select name="type" onchange="this.form.submit()"

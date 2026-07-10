@@ -4,7 +4,7 @@ $navItems = [
   ["page" => "index",    "label" => "Accueil",         "icon" => "fa-home"],
   ["page" => "groupes",  "label" => "Groupes",         "icon" => "fa-users"],
   ["page" => "favoris",  "label" => "Mes Favoris",    "icon" => "fa-bookmark"],
-  ["page" => "mes-publications", "label" => "Mes publications", "icon" => "fa-university"],
+  ["page" => "mes-ressources", "label" => "Mes publications", "icon" => "fa-university"],
 ];
 ?>
 <div id="mobileSidebar" class="fixed inset-0 z-50 hidden md:hidden">

@@ -8,15 +8,18 @@ use App\controllers\AbstractController;
 use App\entity\Groupe;
 use App\entity\User;
 use App\services\GroupeService;
+use App\services\RessourceService;
 
 class GroupeController extends AbstractController
 {
     private GroupeService $groupeService;
+    private RessourceService $ressourceService;
     private static ?GroupeController $instance = null;
     private function __construct()
     {
         parent::__construct();
         $this->groupeService = new GroupeService();
+        $this->ressourceService = new RessourceService();
     }
 
     public static function getInstance(): GroupeController
@@ -67,6 +70,34 @@ class GroupeController extends AbstractController
             $this->render('groupes', ["groupes" => $groupes]);
         }
     }
+    public function voirGroupe(int $id)
+    {
+        $groupe = $this->groupeService->getGroupeById($id);
+        if (!$groupe) {
+            $this->pageNotFound();
+            return;
+        }
+        $ressources = $this->ressourceService->getRessourcesByGroup($id);
+        $this->render('groupe', [
+            'groupe' => $groupe,
+            'ressources' => $ressources,
+        ]);
+    }
+
+    public function formPublierDansGroupe(int $id)
+    {
+        $groupe = $this->groupeService->getGroupeById($id);
+        if (!$groupe) {
+            $this->pageNotFound();
+            return;
+        }
+        $this->render('publier', [
+            'showVisibility' => true,
+            'groupId' => $id,
+            'formAction' => '/groupe/' . $id . '/publier',
+        ]);
+    }
+
     public function createGroupe()
     {
         if ($this->request->isPost()) {

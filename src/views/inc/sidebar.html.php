@@ -8,7 +8,7 @@ $navItems = [
   ["page" => "index",    "label" => "Accueil",         "icon" => "fa-home"],
   ["page" => "groupes",  "label" => "Groupes",         "icon" => "fa-users"],
   ["page" => "favoris",  "label" => "Mes Favoris",    "icon" => "fa-bookmark"],
-  ["page" => "mes-publications", "label" => "Mes publications", "icon" => "fa-university"],
+  ["page" => "mes-ressources", "label" => "Mes publications", "icon" => "fa-university"],
 ];
 
 ?>
@@ -45,7 +45,7 @@ $navItems = [
       <p class="px-2 mb-1 font-semibold uppercase tracking-wider" style="font-size:11px;color:rgba(255,255,255,0.45);">Mes Groupes</p>
       <div class="space-y-0.5">
         <?php foreach ($myGroups as $g): ?>
-          <a href="/groupes"
+          <a href="/groupe/<?= $g->getId() ?>"
             class="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-md text-left transition-colors duration-150 sidebar-hover-bg"
             style="font-size:14px;color:#cfc3cf;"
             onmouseenter="this.style.backgroundColor='#350d36';this.style.color='#ffffff';"

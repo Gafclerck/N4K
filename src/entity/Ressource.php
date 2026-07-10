@@ -10,18 +10,24 @@ use DateTime;
 
 class Ressource
 {
+    private ?int $id = null;
     private String $titre;
     private String $description;
     private string $created_at;
     private string|TypeRessource $type;
     private string|Visibilite $visibilite;
-    private int $matiere_id;
+    private ?int $matiere_id = null;
     private int $groupe_id;
     private int $auteur_id;
 
-    private Matiere $matiere;
-    private Groupe $groupe;
-    private User $auteur;
+    private ?string $filepath = null;
+    private ?string $original_name = null;
+    private ?int $file_size = null;
+    private ?string $mime_type = null;
+
+    private ?Matiere $matiere = null;
+    private ?Groupe $groupe = null;
+    private ?User $auteur = null;
 
     private int $views = 0;
     private int $downloads = 0;
@@ -31,6 +37,26 @@ class Ressource
     public function __construct() {}
 
     // Getters
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getFilepath(): ?string
+    {
+        return $this->filepath;
+    }
+    public function getOriginalName(): ?string
+    {
+        return $this->original_name;
+    }
+    public function getFileSize(): ?int
+    {
+        return $this->file_size;
+    }
+    public function getMimeType(): ?string
+    {
+        return $this->mime_type;
+    }
     public function getTitre(): string
     {
         return $this->titre;
@@ -43,9 +69,13 @@ class Ressource
     {
         return DateTime::createFromFormat("jj/mm/aaaa", $this->created_at);
     }
-    public function getMatiere(): Matiere
+    public function getMatiere(): ?Matiere
     {
         return $this->matiere;
+    }
+    public function getMatiereId(): ?int
+    {
+        return $this->matiere_id;
     }
     public function getType(): TypeRessource
     {
@@ -65,11 +95,11 @@ class Ressource
     {
         return $this->auteur_id;
     }
-    public function getGroupe(): Groupe
+    public function getGroupe(): ?Groupe
     {
         return $this->groupe;
     }
-    public function getAuteur(): User
+    public function getAuteur(): ?User
     {
         return $this->auteur;
     }
@@ -95,6 +125,22 @@ class Ressource
     }
 
     // Setters
+    public function setFilepath(?string $filepath): void
+    {
+        $this->filepath = $filepath;
+    }
+    public function setOriginalName(?string $original_name): void
+    {
+        $this->original_name = $original_name;
+    }
+    public function setFileSize(?int $file_size): void
+    {
+        $this->file_size = $file_size;
+    }
+    public function setMimeType(?string $mime_type): void
+    {
+        $this->mime_type = $mime_type;
+    }
     public function setTitre(String $titre)
     {
         $this->titre = $titre;
@@ -103,11 +149,11 @@ class Ressource
     {
         $this->description = $description;
     }
-    public function setMatiere(Matiere $matiere)
+    public function setMatiere(?Matiere $matiere): void
     {
         $this->matiere = $matiere;
     }
-    public function setMatiereId(int $matiere_id)
+    public function setMatiereId(?int $matiere_id): void
     {
         $this->matiere_id = $matiere_id;
     }
@@ -119,11 +165,11 @@ class Ressource
     {
         $this->visibilite = $visibilite;
     }
-    public function setGroupe(Groupe $groupe)
+    public function setGroupe(?Groupe $groupe): void
     {
         $this->groupe = $groupe;
     }
-    public function setAuteur(User $auteur)
+    public function setAuteur(?User $auteur): void
     {
         $this->auteur = $auteur;
     }
@@ -161,7 +207,7 @@ class Ressource
     public static function create(
         String $titre,
         String $description,
-        int $matiere_id,
+        ?int $matiere_id,
         TypeRessource $type_ressource,
         int $auteur_id,
         int $groupe_id = 0
@@ -185,7 +231,11 @@ class Ressource
             "visibilite" => $this->getVisibilite()->value,
             "matiere_id" => $this->matiere_id,
             "groupe_id" => $this->groupe_id,
-            "auteur_id" => $this->auteur_id
+            "auteur_id" => $this->auteur_id,
+            "filepath" => $this->filepath,
+            "original_name" => $this->original_name,
+            "file_size" => $this->file_size,
+            "mime_type" => $this->mime_type,
         ];
     }
 }
