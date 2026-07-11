@@ -1,0 +1,8 @@
+********* ETUDIANT VIEW ***********
+// FIX : ce fichier contenait une classe 'GroupeView' au lieu de 'EtudiantView'
+// Le contenu de saisieGroupe/saisieRessource a été déplacé dans GroupeView.txt
+// Ce fichier est maintenant réservé aux vues spécifiques à l'étudiant si besoin
+// (actuellement les vues étudiant sont dans GroupeView)
+
+// Note : EtudinatView.txt (faute dans le nom) conservé tel quel pour ne pas casser
+// les chemins existants — la correction du nom se fera lors de la migration Java.

@@ -1,0 +1,32 @@
+*********** MAIN CONTROLLER ***********
+
+Type MainController = Classe
+Debut
+    prive MainController()
+    Debut
+    Fin
+
+    public static procedure main()
+    var choix : entier
+    Debut
+        faire
+            choix <-- UserView::mainMenu()
+            cas (choix) vaut
+                1:
+                    si (AuthController::login() = Vrai) alors  // FIX : 'AuthControlloer' -> 'AuthController' + login() sans paramètre
+                        si (AuthController::getCurrentUser().getRole() = UserRole.ADMIN) alors
+                            AdminController::main(AuthController::getCurrentUser())
+                        sinon
+                            EtudiantController::main(AuthController::getCurrentUser())
+                        finsi
+                    finsi
+                2:
+                    AuthController::register()
+                3:
+                    ecrire("Au revoir !")
+                sinon:
+                    ecrire("Option invalide.")
+            finselon
+        tantque (choix <> 3)
+    Fin
+FinClasse

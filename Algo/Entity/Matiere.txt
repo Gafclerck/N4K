@@ -1,0 +1,22 @@
+********* MATIERE ***********
+
+Type Matiere = Classe
+Debut
+    prive nom : chaine
+    prive description : chaine
+
+    public Matiere(n : chaine, d : chaine)
+    Debut
+        this.nom <-- n
+        this.description <-- d
+    Fin
+    // Getters
+    public fonction getNom() : chaine
+    Debut
+        retourne this.nom
+    Fin
+    public fonction getDescription() : chaine
+    Debut
+        retourne this.description
+    Fin
+FinClasse

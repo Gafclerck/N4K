@@ -1,0 +1,115 @@
+********* GROUPE ***********
+
+Type Groupe = Classe
+Debut
+    prive nom : chaine
+    prive description : chaine
+    prive dateCreation : Date
+    prive Admin : User
+    prive codeGroupe : chaine
+    prive static nbrMembre : entier
+    prive static membres : TabMembre
+    prive visibilite : Visibilite
+
+    // Constructeur
+    public fonction Groupe(n : chaine, d : chaine, dc : Date, a : User, cg : chaine)
+    Debut
+        this.nom <-- n
+        this.description <-- d
+        this.dateCreation <-- dc
+        this.Admin <-- a
+        this.codeGroupe <-- cg
+    Fin
+    public fonction Groupe(n : chaine, d : chaine, dc : Date, a : User)
+    Debut
+        this.nom <-- n
+        this.description <-- d
+        this.dateCreation <-- dc
+        this.Admin <-- a
+    Fin
+    // Getters
+    public fonction getNom() : chaine
+    Debut
+        retourne this.nom
+    Fin
+    public fonction getDescription() : chaine
+    Debut
+        retourne this.description
+    Fin
+    public fonction getDateCreation() : Date
+    Debut
+        retourne this.dateCreation
+    Fin
+    public fonction getAdmin() : User
+    Debut
+        retourne this.Admin
+    Fin
+    public fonction getCodeGroupe() : chaine
+    Debut
+        retourne this.codeGroupe
+    Fin
+    public fonction getMembres() : TabUser
+    Debut
+        retourne this.membres
+    Fin
+    public fonction getNbrMembre() : entier
+    Debut
+        retourne this.nbrMembre
+    Fin
+    public fonction getVisibilite() : Visibilite
+    Debut
+        retourne this.visibilite
+    Fin
+    // Setters
+    public procedure setNom(n : chaine)
+    Debut
+        this.nom <-- n
+    Fin
+    public procedure setDescription(d : chaine)
+    Debut
+        this.description <-- d
+    Fin
+    public procedure setDateCreation(dc : Date)
+    Debut
+        this.dateCreation <-- dc
+    Fin
+    public procedure setAdmin(a : User)
+    Debut
+        this.Admin <-- a
+    Fin
+    public procedure setCodeGroupe(cg : chaine)
+    Debut
+        this.codeGroupe <-- cg
+    Fin
+    public procedure setVisibilite(v : Visibilite)
+    Debut
+        this.visibilite <-- v
+    Fin
+    public procedure addMembre(m : Membre)
+    Debut
+        si (this.nbrMembre >= N) alors
+            ecrire("Nombre maximum de membres atteint.")            
+        Sinon
+            this.nbrMembre <-- this.nbrMembre + 1
+            m.setGroupe(this)
+            this.membres[this.nbrMembre] <-- m
+        finsi
+    Fin
+
+    public static fonction estMembre(u : User) : boolean 
+    var i : entier
+    Debut
+        pour (i <-- 1; i <= this.nbrMembre; i++) faire
+            si (this.membres[i].getUser().getNomUtilisateur() = u.getNomUtilisateur()) alors
+                retourne Vrai
+            finsi
+        finpour
+        retourne Faux
+    Fin
+    
+    // REPRESENTATION
+    public fonction toString() : chaine  
+    Debut
+        retourne "Groupe{nom='" + this.nom + "', description='" + this.description + "', dateCreation=" + this.dateCreation.toString() + ", Admin=" + this.Admin.getNom() + "}"
+    Fin
+FinClasse

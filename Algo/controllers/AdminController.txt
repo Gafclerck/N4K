@@ -1,0 +1,65 @@
+********* ADMIN CONTROLLER ***********
+
+Type AdminController = Classe
+Debut
+    prive AdminController()
+    Debut
+    Fin
+
+    public static procedure main(u : User)
+    var choix : entier
+    Debut
+        faire
+            ecrire("========= Menu Administrateur =========")
+            ecrire("1. Voir tous les utilisateurs")
+            ecrire("2. Voir tous les groupes")
+            ecrire("3. Voir toutes les ressources")
+            ecrire("4. Déconnexion")
+            ecrire("Veuillez choisir une option : ")
+            lire(choix)
+
+            cas (choix) vaut
+                1:
+                    AdminController::afficherUtilisateurs()
+                2:
+                    AdminController::afficherGroupes()
+                3:
+                    AdminController::afficherRessources()
+                4:
+                    ecrire("Déconnexion...")
+                sinon:
+                    ecrire("Option invalide.")
+            finselon
+        tantque (choix <> 4)
+    Fin
+
+    // FIX DRY : délègue à UserView::afficherUsers() au lieu de réimplémenter la boucle
+    private static procedure afficherUtilisateurs()
+    var users : TabUser
+    var n : entier
+    Debut
+        n <-- UserService::getNbrUser()
+        UserService::getUsers(users)
+        UserView::afficherUsers(users, n)
+    Fin
+
+    // FIX DRY : délègue à GroupeView::afficherGroupes() au lieu de réimplémenter la boucle
+    private static procedure afficherGroupes()
+    var groupes : TabGroupe
+    var n : entier
+    Debut
+        n <-- GroupeService::getNbrGroupe()
+        GroupeService::getGroupes(groupes)
+        GroupeView::afficherGroupes(groupes, n)
+    Fin
+
+    // DRY : délègue à GroupeView::afficherRessources() (déjà correct)
+    private static procedure afficherRessources()
+    var ressources : TabRessource
+    var n : entier
+    Debut
+        n <-- RessourceService::getNbrRessource()
+        RessourceService::getRessources(ressources)
+        GroupeView::afficherRessources(ressources, n)
+    Fin
+FinClasse

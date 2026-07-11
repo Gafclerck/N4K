@@ -1,0 +1,69 @@
+********* USER_SERVICES ***********
+
+const N = 200
+
+Type UserService = Classe
+Debut
+    prive static nbrUser : entier
+    prive static users : TabUser
+
+    // Constructeur privé (classe utilitaire, non instanciable)
+    prive UserService()
+    Debut
+    Fin
+
+    // GETTERS
+    public static fonction getNbrUser() : entier
+    Debut
+        retourne nbrUser
+    Fin
+
+    public static procedure getUsers(D/R result : TabUser)
+    var i : entier
+    Debut
+        pour (i <-- 1; i <= nbrUser; i++) faire
+            result[i] <-- users[i]
+        finpour
+    Fin
+
+    // ADD USER
+    public static fonction addUser(u : User) : boolean
+    Debut
+        si (nbrUser >= N) alors
+            ecrire("Nombre maximum d'utilisateurs atteint.")
+            retourne faux
+        finsi
+        nbrUser <-- nbrUser + 1
+        users[nbrUser] <-- u
+        retourne vrai
+    Fin
+
+    // GETTER BY NOM UTILISATEUR
+    public static fonction getUserByNomUtilisateur(nu : chaine, D/R u : User) : entier
+    var i : entier
+    Debut
+        pour (i <-- 1; i <= nbrUser; i++) faire
+            si (users[i].getNomUtilisateur() = nu) alors
+                u <-- users[i]
+                retourne i
+            finsi
+        finpour
+        retourne -1
+    Fin
+
+    // LOGIN  FIX : vérification du mot de passe ajoutée
+    public static fonction login(nu : chaine, mdp : chaine, D/R u : User) : boolean
+    var i : entier
+    Debut
+        i <-- UserService::getUserByNomUtilisateur(nu, u)
+        si (i = -1) alors
+            ecrire("Utilisateur non trouvé.")
+            retourne faux
+        finsi
+        si (u.getMdp() != mdp) alors  // FIX : comparaison du mot de passe
+            ecrire("Mot de passe incorrect.")
+            retourne faux
+        finsi
+        retourne vrai
+    Fin
+FinClasse

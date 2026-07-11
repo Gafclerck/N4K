@@ -1,0 +1,6 @@
+*********** MAIN ***********
+// FIX : fichier était vide — point d'entrée du programme
+
+Debut
+    MainController::main()
+Fin

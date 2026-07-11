@@ -1,0 +1,58 @@
+********* MEMBRE ***********
+
+// FIX : ajout de l'énumération TypeMembre (manquante, utilisée dans GroupeService)
+Type TypeMembre = Enumeration
+    ADMIN, MEMBRE
+
+Type Membre = Classe
+Debut
+    prive date_integration : Date
+    prive groupe : Groupe
+    prive user : User
+    prive role : TypeMembre  // FIX : attribut role manquant
+
+    // Constructeur
+    public fonction Membre(d : Date, g : Groupe, u : User)
+    Debut
+        this.date_integration <-- d
+        this.groupe <-- g
+        this.user <-- u
+        this.role <-- TypeMembre.MEMBRE  // FIX : rôle par défaut
+    Fin
+
+    // Getters
+    public fonction getDateIntegration() : Date
+    Debut
+        retourne this.date_integration
+    Fin
+    public fonction getGroupe() : Groupe
+    Debut
+        retourne this.groupe
+    Fin
+    public fonction getUser() : User
+    Debut
+        retourne this.user
+    Fin
+    public fonction getRole() : TypeMembre  // FIX : getter du rôle
+    Debut
+        retourne this.role
+    Fin
+
+    // Setters
+    public procedure setDateIntegration(d : Date)
+    Debut
+        this.date_integration <-- d
+    Fin
+    public procedure setGroupe(g : Groupe)
+    Debut
+        this.groupe <-- g
+    Fin
+    public procedure setUser(u : User)
+    Debut
+        this.user <-- u
+    Fin
+    public procedure setTypeMembre(r : TypeMembre)  // FIX : setter du rôle
+    Debut
+        this.role <-- r
+    Fin
+FinClasse

@@ -1,0 +1,129 @@
+********* RESSOURCE ***********
+
+Type TypeRessource = Enumeration
+    COURS, EXO, TD, TP,RAPPORT, AUTRE
+
+Type Visibilite = Enumeration
+    PUBLIC, PRIVE
+
+Type Ressource = Classe
+Debut
+    prive titre : chaine
+    prive description : chaine
+    prive datePartage : Date
+    prive matiere : Matiere
+    prive typeR : TypeRessource
+    prive commentaires : TabCommentaire
+    prive nbCom : entier
+    prive visibilite : Visibilite
+    prive groupe : Groupe
+    prive auteur : User  // FIX : attribut auteur manquant (exigé par le cahier des charges)
+
+    // Constructeur
+    public Ressource(t : chaine, d : chaine, dp : Date, m : Matiere, ty : TypeRessource, a : User)  // FIX : auteur ajouté au constructeur
+    Debut
+        this.titre <-- t
+        this.description <-- d
+        this.datePartage <-- dp
+        this.matiere <-- m
+        this.typeR <-- ty
+        this.auteur <-- a  // FIX
+        this.nbCom <-- 0
+    Fin
+    // Getters
+    public fonction getTitre() : chaine
+    Debut
+        retourne this.titre
+    Fin
+    public fonction getDescription() : chaine
+    Debut
+        retourne this.description
+    Fin
+    public fonction getDatePartage() : Date
+    Debut
+        retourne this.datePartage    
+    Fin
+    public fonction getMatiere() : Matiere
+    Debut
+        retourne this.matiere
+    Fin
+    public fonction getType() : TypeRessource
+    Debut
+        retourne this.typeR
+    Fin
+    public fonction getVisibilite() : Visibilite
+    Debut
+        retourne this.visibilite
+    Fin
+    public fonction getGroupe() : Groupe
+    Debut
+        retourne this.groupe
+    Fin
+    public fonction getAuteur() : User  // FIX : getter auteur
+    Debut
+        retourne this.auteur
+    Fin
+    // GETTER DE TABLEAU
+    public procedure getCommentaires(D/R commentaires)
+    var i : entier
+    Debut
+        pour (i <-- 1; i <= N; i++) faire
+            commentaires[i] <-- this.commentaires[i]
+        finpour
+    Fin
+    public fonction getNbCom() : entier
+    Debut
+        retourne this.nbCom
+    Fin
+
+    // Setters
+    public procedure setTitre(t : chaine)
+    Début
+        this.titre <-- t
+    Fin
+    public procedure setDescription(d : chaine)
+    Debut
+        this.description <-- d
+    Fin
+    public procedure setDatePartage(dp : Date)
+    Debut
+        this.datePartage <-- dp
+    Fin
+    public procedure setMatiere(m : Matiere)
+    Debut
+        this.matiere <-- m
+    Fin
+    public procedure setType(t : TypeRessource)
+    Debut
+        this.typeR <-- t
+    Fin
+    public procedure setVisibilite(v : Visibilite)
+    Debut
+        this.visibilite <-- v
+    Fin
+    public procedure setGroupe(g : Groupe)
+    Debut
+        this.groupe <-- g
+    Fin
+    public procedure setAuteur(a : User)  // FIX : setter auteur
+    Debut
+        this.auteur <-- a
+    Fin
+    // ADDER DE COMMENTAIRE
+    public procedure addCommentaire(c : Commentaire)
+    var i : entier
+    Debut
+        si (this.nbCom < N) alors
+            this.nbCom <-- this.nbCom + 1
+            this.commentaires[this.nbCom] <-- c
+        sinon
+            ecrire("Nombre maximum de commentaires atteint.")
+        finsi
+    Fin
+
+    // REPRESENTATION
+    public fonction toString() : chaine
+    Debut
+        retourne "Titre: " + this.titre + "Description: " + this.description + "Date de partage: " + this.datePartage.toString() + "Matiere: " + this.matiere.getNom() + "Type: " + this.typeR.toString() + "Nombre de commentaires: " + this.nbCom
+    Fin
+FinClasse

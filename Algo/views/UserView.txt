@@ -1,0 +1,48 @@
+********* USER_VIEW ***********
+
+Type UserView = Classe
+Debut
+    public static fonction mainMenu() : entier
+    var choix : entier
+    Debut
+        ecrire("=== Menu Principal ===")
+        ecrire("1. Se connecter")
+        ecrire("2. S'inscrire")
+        ecrire("3. Quitter")
+        faire
+            ecrire("Veuillez entrer votre choix : ")
+            lire(choix)
+            si (choix < 1 ou choix > 3) alors
+                ecrire("Choix invalide. Veuillez réessayer.")
+            finsi
+        tantque (choix < 1 ou choix > 3)
+        retourne choix
+    Fin
+
+    public static fonction saisieUser() : User
+    var nom, prenom, nomUtilisateur, mdp, tel : chaine
+    Debut
+        ecrire("=== Inscription ===")
+        ecrire("Nom : ")
+        lire(nom)
+        ecrire("Prénom : ")
+        lire(prenom)
+        ecrire("Nom d'utilisateur : ")
+        lire(nomUtilisateur)
+        ecrire("Mot de passe : ")
+        lire(mdp)
+        ecrire("Numéro de téléphone : ")
+        lire(tel)
+        retourne new User(nom, prenom, nomUtilisateur, mdp, tel)
+    Fin
+
+    // FIX : ajout afficherUsers() pour AdminController (DRY — évite la boucle inline)
+    public static procedure afficherUsers(D users : TabUser, n : entier)
+    var i : entier
+    Debut
+        ecrire("=== Liste des utilisateurs ===")
+        pour (i <-- 1; i <= n; i++) faire
+            ecrire(i, ". ", users[i].toString())
+        finpour
+    Fin
+FinClasse

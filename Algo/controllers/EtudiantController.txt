@@ -1,0 +1,157 @@
+********* ETUDIANT CONTROLLER ***********
+
+Type EtudiantController = Classe
+Debut
+    prive EtudiantController()
+    Debut
+    Fin
+
+    public static procedure main(u : User)
+    var choix, cpt : entier
+    var ressources : TabRessource
+    var mesGroupes : TabGroupe
+    var g : Groupe
+    var n : entier
+    Debut
+        faire
+            ecrire("========= Menu Étudiant =========")
+            ecrire("1. Créer un groupe")
+            ecrire("2. Intégrer un groupe")
+            ecrire("3. Afficher mes groupes")
+            ecrire("4. Partager une ressource")
+            ecrire("5. Rechercher une ressource")
+            ecrire("6. Voir mes ressources")
+            ecrire("7. Voir toutes les ressources")
+            ecrire("8. Voir les ressources d'un groupe")
+            ecrire("9. Déconnexion")
+            ecrire("Veuillez choisir une option : ")
+            lire(choix)
+
+            cas (choix) vaut
+                1:
+                    EtudiantController::creerGroupe(u)
+                2:
+                    EtudiantController::integrerGroupe(u)
+                3:
+                    // FIX : délègue au service + à la vue existante (DRY)
+                    n <-- GroupeService::getGroupesByUser(u, mesGroupes)
+                    GroupeView::afficherGroupes(mesGroupes, n)
+                4:
+                    EtudiantController::partagerRessource(u)
+                5:
+                    EtudiantController::rechercherRessource()
+                6:
+                    // FIX : utilise getRessourcesByUser() du service avec le currentUser
+                    cpt <-- RessourceService::getRessourcesByUser(u, ressources)
+                    GroupeView::afficherRessources(ressources, cpt)
+                7:
+                    RessourceService::getRessources(ressources)
+                    cpt <-- RessourceService::getNbrRessource()
+                    GroupeView::afficherRessources(ressources, cpt)
+                8:
+                    // FIX : on choisit parmi les groupes de l'user (via service)
+                    n <-- GroupeService::getGroupesByUser(u, mesGroupes)
+                    g <-- GroupeView::choisirGroupe(mesGroupes, n)
+                    cpt <-- RessourceService::getRessourcesByGroupe(g, ressources)
+                    GroupeView::afficherRessources(ressources, cpt)
+                9:
+                    ecrire("Déconnexion...")
+                sinon:
+                    ecrire("Option invalide. Veuillez réessayer.")
+            finselon
+        tantque (choix <> 9)
+    Fin
+
+    public static procedure creerGroupe(u : User)
+    var g : Groupe
+    Debut
+        g <-- GroupeView::saisieGroupe()
+        si (GroupeService::addGroupe(g, u) = Vrai) alors
+            ecrire("Groupe créé avec succès ! Code d'accès : ", g.getCodeGroupe())
+        sinon
+            ecrire("Échec de la création du groupe. Veuillez réessayer.")
+        finsi
+    Fin
+
+    public static procedure integrerGroupe(u : User)
+    var tousGroupes : TabGroupe
+    var g : Groupe
+    var code : chaine
+    var n : entier
+    Debut
+        GroupeService::getGroupes(tousGroupes)
+        n <-- GroupeService::getNbrGroupe()
+        g <-- GroupeView::choisirGroupe(tousGroupes, n)
+        ecrire("Entrez le code d'accès du groupe : ")
+        lire(code)
+        si (GroupeService::joinGroupe(g, code, u) = Vrai) alors
+            ecrire("Groupe intégré avec succès !")
+        sinon
+            ecrire("Code incorrect ou groupe inaccessible.")
+        finsi
+    Fin
+
+    public static procedure partagerRessource(u : User)
+    var mesGroupes : TabGroupe
+    var g : Groupe
+    var ressource : Ressource
+    var n : entier
+    Debut
+        n <-- GroupeService::getGroupesByUser(u, mesGroupes)  // FIX : via service
+        g <-- GroupeView::choisirGroupe(mesGroupes, n)
+        si (g.estMembre(u) = Vrai) alors
+            ressource <-- GroupeView::saisieRessource(u)
+            ressource.setGroupe(g)
+            RessourceService::addRessource(ressource)
+            ecrire("Ressource partagée avec succès !")
+        sinon
+            ecrire("Vous n'êtes pas membre de ce groupe.")
+        finsi
+    Fin
+
+    public static procedure rechercherRessource()
+    var choix, cpt : entier
+    var titre, nomMatiere : chaine
+    var type : TypeRessource
+    var annee : entier
+    var tabR, ressources : TabRessource
+    var n : entier
+    Debut
+        RessourceService::getRessources(tabR)
+        n <-- RessourceService::getNbrRessource()
+        faire
+            ecrire(".............Recherche de Ressources............")
+            ecrire("1. Par titre")
+            ecrire("2. Par matière")
+            ecrire("3. Par type")
+            ecrire("4. Par date")
+            ecrire("5. Retour au menu principal")
+            ecrire("Veuillez choisir une option : ")
+            lire(choix)
+
+            cas (choix) vaut
+                1:
+                    ecrire("Entrez le titre : ")
+                    lire(titre)
+                    cpt <-- RessourceService::getRessourceByTitle(tabR, n, titre, ressources)
+                    GroupeView::afficherRessources(ressources, cpt)
+                2:
+                    ecrire("Entrez le nom de la matière : ")
+                    lire(nomMatiere)
+                    cpt <-- RessourceService::getRessourceByMatiere(tabR, n, nomMatiere, ressources)
+                    GroupeView::afficherRessources(ressources, cpt)
+                3:
+                    type <-- GroupeView::selectTypeRessource()
+                    cpt <-- RessourceService::getRessourceByType(tabR, n, type, ressources)
+                    GroupeView::afficherRessources(ressources, cpt)
+                4:
+                    ecrire("Entrez l'année : ")
+                    lire(annee)
+                    cpt <-- RessourceService::getRessourcesByDate(tabR, n, annee, ressources)
+                    GroupeView::afficherRessources(ressources, cpt)
+                sinon:
+                    ecrire("Option invalide.")
+            finselon
+        tantque (choix <> 5)
+    Fin
+FinClasse

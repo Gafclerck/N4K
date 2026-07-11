@@ -1,0 +1,123 @@
+********* RESSOURCES_SERVICES ***********
+
+Type RessourceService = Classe
+Debut
+    prive static nbrRessource : entier  // FIX : déclaré static
+    prive static ressources : TabRessource
+
+    // Constructeur privé (classe utilitaire, non instanciable)
+    prive RessourceService()
+    Debut
+    Fin
+
+    // GETTERS
+    public static fonction getNbrRessource() : entier
+    Debut
+        retourne nbrRessource
+    Fin
+
+    public static procedure getRessources(D/R result : TabRessource)
+    var i : entier
+    Debut
+        pour (i <-- 1; i <= nbrRessource; i++) faire
+            result[i] <-- ressources[i]  // FIX : copie du champ static vers result (bug boucle auto-référente)
+        finpour
+    Fin
+
+    public static fonction getRessourcesByUser(user : User, D/R result : TabRessource) : entier
+    var i, n : entier
+    Debut
+        n <-- 0
+        pour (i <-- 1; i <= nbrRessource; i++) faire
+            si (ressources[i].getAuteur().getNomUtilisateur() = user.getNomUtilisateur()) alors
+                n <-- n + 1
+                result[n] <-- ressources[i]
+            finsi
+        finpour
+        retourne n
+    Fin
+
+    public static fonction getRessourcesByGroupe(g : Groupe, D/R result : TabRessource) : entier
+    var i, n : entier
+    Debut
+        n <-- 0
+        pour (i <-- 1; i <= nbrRessource; i++) faire
+            si (ressources[i].getGroupe().getNom() = g.getNom()) alors
+                n <-- n + 1
+                result[n] <-- ressources[i]
+            finsi
+        finpour
+        retourne n
+    Fin
+
+    // ADD RESSOURCE
+    public static fonction addRessource(r : Ressource) : boolean
+    Debut
+        si (nbrRessource >= N) alors
+            ecrire("Nombre maximum de ressources atteint.")
+            retourne faux
+        finsi
+        nbrRessource <-- nbrRessource + 1
+        ressources[nbrRessource] <-- r
+        retourne vrai
+    Fin
+
+    // FILTRES DE RECHERCHE
+    public static fonction getRessourceByTitle(D ressourcesInitial : TabRessource, n : entier,
+                                               D title : chaine, D/R r : TabRessource) : entier
+    var i, cpt : entier
+    Debut
+        cpt <-- 0
+        pour (i <-- 1; i <= n; i++) faire
+            si (ressourcesInitial[i].getTitre() = title) alors
+                cpt <-- cpt + 1
+                r[cpt] <-- ressourcesInitial[i]
+            finsi
+        finpour
+        retourne cpt
+    Fin
+
+    public static fonction getRessourceByMatiere(D ressourcesInitial : TabRessource, n : entier,
+                                                 D nomMatiere : chaine, D/R r : TabRessource) : entier
+    var i, cpt : entier
+    Debut
+        cpt <-- 0
+        pour (i <-- 1; i <= n; i++) faire
+            si (ressourcesInitial[i].getMatiere().getNom() = nomMatiere) alors
+                cpt <-- cpt + 1
+                r[cpt] <-- ressourcesInitial[i]
+            finsi
+        finpour
+        retourne cpt
+    Fin
+
+    public static fonction getRessourceByType(D ressourcesInitial : TabRessource, n : entier,
+                                              D type : TypeRessource, D/R r : TabRessource) : entier
+    var i, cpt : entier
+    Debut
+        cpt <-- 0
+        pour (i <-- 1; i <= n; i++) faire
+            si (ressourcesInitial[i].getType() = type) alors
+                cpt <-- cpt + 1
+                r[cpt] <-- ressourcesInitial[i]
+            finsi
+        finpour
+        retourne cpt
+    Fin
+
+    // FIX : 'i <= ressouresInitial' (tableau) -> 'i <= n' (entier) + D/R r : TabRessource
+    public static fonction getRessourcesByDate(D ressourcesInitial : TabRessource, n : entier,
+                                               D annee : entier, D/R r : TabRessource) : entier
+    var i, cpt : entier
+    Debut
+        cpt <-- 0
+        pour (i <-- 1; i <= n; i++) faire
+            si (ressourcesInitial[i].getDatePartage().getAnnee() = annee) alors
+                cpt <-- cpt + 1
+                r[cpt] <-- ressourcesInitial[i]
+            finsi
+        finpour
+        retourne cpt
+    Fin
+
+FinClasse

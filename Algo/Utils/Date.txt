@@ -1,0 +1,103 @@
+********* DATE ***********
+const ANN_MAX = 2100
+
+Type Date = Classe
+Debut
+    prive jour : entier
+    prive moi : entier
+    prive annee : entier
+
+    public Date(jour : entier, moi : entier, annee : entier)
+    Debut
+        this.setJour(jour)
+        this.setMoi(moi)
+        this.setAnnee(annee)
+    Fin
+
+    public fonction getJour() : entier
+    Debut
+        retourne this.jour
+    Fin
+
+    public fonction getMoi() : entier
+    Debut
+        retourne this.moi
+    Fin
+
+    public fonction getAnnee() : entier
+    Debut
+        retourne this.annee
+    Fin
+
+    public fonction estValide() : booleen
+    Debut
+        si (this.jour < 1 ou this.jour > 31) alors
+            retourne faux
+        finsi
+        si (this.moi < 1 ou this.moi > 12) alors
+            retourne faux
+        finsi
+        si (this.annee < 0 ou this.annee > ANN_MAX) alors
+            retourne faux
+        finsi
+        retourne vrai
+    Fin
+
+    public fonction isRecent(Date date) : booleen
+    Debut
+        si (this.annee < date.getAnnee()) alors
+            retourne faux
+        sinon 
+            si (this.annee > date.getAnnee()) alors
+                retourne vrai
+            finsi
+        si (this.moi < date.getMoi()) alors
+            retourne faux
+        finsi
+        si (this.moi > date.getMoi()) alors
+            retourne vrai
+        finsi
+        si (this.jour < date.getJour()) alors
+            retourne faux
+        finsi
+        retourne vrai
+    Fin
+
+    public fonction timestamp() : chaine
+    Debut
+        retourne this.annee + "" + this.moi + "" + this.jour
+    Fin
+
+    public fonction toString() : chaine
+    Debut
+        retourne this.jour + "/" + this.moi + "/" + this.annee
+    Fin
+
+    public procedure setJour(jour : entier)
+    Debut
+        si (jour < 1 ou jour > 31) alors
+            ecrire("Jour invalide")
+            retourner
+        finsi
+        this.jour <-- jour
+    Fin
+
+    public procedure setMoi(moi : entier)
+    Debut
+        si (moi < 1 ou moi > 12) alors
+            ecrire("Mois invalide")
+            retourner
+        finsi
+        this.moi <-- moi
+    Fin
+
+    public procedure setAnnee(annee : entier)
+    Debut
+        si (annee < 0 ou annee > ANN_MAX) alors
+            ecrire("Année invalide")
+            retourner
+        finsi
+        this.annee <-- annee
+    Fin
+    
+FinClasse

@@ -1,0 +1,91 @@
+********* GROUPE_SERVICES ***********
+
+Type GroupeService = Classe
+Debut
+    prive static nbrGroupe : entier
+    prive static groupes : TabGroupe
+
+    prive GroupeService()
+    Debut
+    Fin
+
+    // GETTERS
+    public static fonction getNbrGroupe() : entier
+    Debut
+        retourne nbrGroupe
+    Fin
+
+    public static procedure getGroupes(D/R result : TabGroupe)
+    var i : entier
+    Debut
+        pour (i <-- 1; i <= nbrGroupe; i++) faire
+            result[i] <-- groupes[i]
+        finpour
+    Fin
+
+    // FIX : logique "groupes d'un user" déplacée ici depuis EtudiantController (DRY + bonne couche)
+    public static fonction getGroupesByUser(u : User, D/R result : TabGroupe) : entier
+    var i, n : entier
+    Debut
+        n <-- 0
+        pour (i <-- 1; i <= nbrGroupe; i++) faire
+            si (groupes[i].estMembre(u) = Vrai) alors
+                n <-- n + 1
+                result[n] <-- groupes[i]
+            finsi
+        finpour
+        retourne n
+    Fin
+
+    // ADD GROUPE
+    public static fonction addGroupe(g : Groupe, owner : User) : boolean
+    Debut
+        si (nbrGroupe >= N) alors
+            ecrire("Nombre maximum de groupes atteint.")
+            retourne faux
+        finsi
+        nbrGroupe <-- nbrGroupe + 1
+        g.setCodeGroupe(GroupeService::generateCode(nbrGroupe, g))
+        g.setAdmin(owner)
+        var m : Membre
+        m <-- new Membre(new Date(1,1,2000), g, owner)
+        m.setTypeMembre(TypeMembre.ADMIN)
+        g.addMembre(m)
+        groupes[nbrGroupe] <-- g
+        retourne vrai
+    Fin
+
+    // JOIN GROUPE
+    public static fonction joinGroupe(g : Groupe, code : chaine, u : User) : boolean
+    var m : Membre
+    Debut
+        si (g.getCodeGroupe() = code) alors
+            m <-- new Membre(new Date(1,1,2000), g, u)
+            m.setTypeMembre(TypeMembre.MEMBRE)
+            g.addMembre(m)
+            retourne vrai
+        sinon
+            retourne faux
+        finsi
+    Fin
+
+    // RECHERCHE GROUPE PAR NOM
+    public static fonction getGroupeByNom(nom : chaine, D/R g : Groupe) : entier
+    var i : entier
+    Debut
+        pour (i <-- 1; i <= nbrGroupe; i++) faire
+            si (groupes[i].getNom() = nom) alors
+                g <-- groupes[i]
+                retourne i
+            finsi
+        finpour
+        retourne -1
+    Fin
+
+    private static fonction generateCode(id : entier, D g : Groupe) : chaine
+    var code : chaine
+    Debut
+        code <-- "G" + id + g.getDateCreation().timestamp()
+        retourne code
+    Fin
+FinClasse

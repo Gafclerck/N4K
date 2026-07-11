@@ -1,0 +1,46 @@
+********* AUTH CONTROLLER ***********
+
+Type AuthController = Classe
+Debut
+    prive static currentUser : User
+    prive AuthController()
+    Debut
+    Fin
+
+    // GETTER
+    public static fonction getCurrentUser() : User
+    Debut
+        retourne currentUser
+    Fin
+
+    // FIX : déclaration de 'u' + passage du mdp à UserService::login
+    public static fonction login() : boolean
+    var nu, mdp : chaine
+    var u : User  // FIX : variable u déclarée
+    Debut
+        ecrire("=== Connexion ===")
+        ecrire("Nom d'utilisateur : ")
+        lire(nu)
+        ecrire("Mot de passe : ")
+        lire(mdp)
+        si (UserService::login(nu, mdp, u) = Vrai) alors  // FIX : mdp transmis
+            ecrire("Connexion réussie ! Bienvenue, ", u.getPrenom(), " ", u.getNom(), ".")
+            currentUser <-- u
+            retourne Vrai
+        sinon
+            ecrire("Échec de la connexion. Veuillez vérifier vos informations.")
+            retourne Faux
+        finsi
+    Fin
+
+    public static procedure register()
+    var u : User
+    Debut
+        u <-- UserView::saisieUser()
+        si (UserService::addUser(u) = Vrai) alors
+            ecrire("Inscription réussie ! Vous pouvez maintenant vous connecter.")
+        sinon
+            ecrire("Échec de l'inscription. Veuillez réessayer.")
+        finsi
+    Fin
+FinClasse

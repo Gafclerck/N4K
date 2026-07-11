@@ -1,0 +1,55 @@
+********* COMMENTAIRE ***********
+const N = 200
+Type Commentaire = Classe
+Debut
+    prive message : chaine
+    prive date : Date
+    prive ressource : Ressource
+    prive user : User
+
+    // Constructeur
+    public fonction Commentaire(m : chaine, d : Date, r : Ressource, u : User)
+    Debut
+        this.message <-- m
+        this.date <-- d
+        this.ressource <-- r
+        this.user <-- u
+    Fin
+    // Getters
+    public fonction getMessage() : chaine
+    Debut
+        retourne this.message
+    Fin
+    public fonction getDate() : Date
+    Debut
+        retourne this.date
+    Fin
+    public fonction getRessource() : Ressource
+    Debut
+        retourne this.ressource
+    Fin
+    public fonction getUser() : User
+    Debut
+        retourne this.user
+    Fin 
+
+    // SETTERS
+    public procedure setMessage(msg : chaine)
+    Debut
+        this.message <-- msg
+    Fin
+    public procedure setDate(d : Date)
+    Debut
+        this.date <-- d
+    Fin
+    public procedure setRessource(r : Ressource)
+    Debut
+        this.ressource <-- r
+    Fin
+    public procedure setUser(u : User)
+    Debut
+        this.user <-- u
+    Fin
+FinClasse
+
+Type TabCommentaire = Tableau[1..N]: Commentaire

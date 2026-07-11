@@ -1,0 +1,126 @@
+********* GROUPE VIEW ***********
+
+Type GroupeView = Classe
+Debut
+    prive GroupeView()
+    Debut
+    Fin
+
+    public static fonction saisieGroupe() : Groupe
+    var nomGroupe, description : chaine
+    var visibilite : Visibilite
+    var dateCreation : Date
+    Debut
+        ecrire("=== Création d'un groupe ===")
+        ecrire("Nom du groupe : ")
+        lire(nomGroupe)
+        ecrire("Description du groupe : ")
+        lire(description)
+        visibilite <-- GroupeView::selectVisibilite()
+        dateCreation <-- Utils::saisieDate()
+        retourne new Groupe(nomGroupe, description, dateCreation)
+    Fin
+
+    private static fonction selectVisibilite() : Visibilite
+    var choix : entier
+    Debut
+        ecrire("Sélectionnez la visibilité du groupe :")
+        ecrire("1. Public")
+        ecrire("2. Privé")
+        faire
+            lire(choix)
+        tantque (choix < 1 ou choix > 2)
+        cas (choix) vaut
+            1: retourne Visibilite.PUBLIC
+            2: retourne Visibilite.PRIVE
+        finselon
+    Fin
+
+    public static procedure afficherGroupes(D groupes : TabGroupe, n : entier)
+    var i : entier
+    Debut
+        ecrire("=== Liste des groupes ===")
+        pour (i <-- 1; i <= n; i++) faire
+            ecrire(i, ". ", groupes[i].toString())
+        finpour
+    Fin
+
+    public static fonction choisirGroupe(groupes : TabGroupe, n : entier) : Groupe
+    var i : entier
+    Debut
+        ecrire("=== Choisir un groupe ===")
+        GroupeView::afficherGroupes(groupes, n)
+        faire
+            ecrire("Choisissez un numéro : ")
+            lire(i)
+            si (i < 1 ou i > n) alors
+                ecrire("Numéro invalide. Veuillez réessayer.")
+            finsi
+        tantque (i < 1 ou i > n)
+        retourne groupes[i]
+    Fin
+
+    // FIX : auteur (User) passé en paramètre pour alimenter Ressource.auteur
+    public static fonction saisieRessource(auteur : User) : Ressource
+    var titre, description : chaine
+    var matiere : Matiere
+    var dateCreation : Date
+    var visibilite : Visibilite
+    var typeRessource : TypeRessource
+    Debut
+        ecrire("=== Création d'une ressource ===")
+        ecrire("Titre : ")
+        lire(titre)
+        ecrire("Description : ")
+        lire(description)
+        matiere <-- GroupeView::selectMatiere()
+        dateCreation <-- Utils::saisieDate()
+        visibilite <-- GroupeView::selectVisibilite()
+        typeRessource <-- GroupeView::selectTypeRessource()
+        retourne new Ressource(titre, description, dateCreation, matiere, typeRessource, auteur)  // FIX : auteur ajouté
+    Fin
+
+    // FIX : sélection de matière (stub — à compléter avec les matières disponibles)
+    public static fonction selectMatiere() : Matiere
+    var nom, description : chaine
+    Debut
+        ecrire("Entrez le nom de la matière : ")
+        lire(nom)
+        ecrire("Description de la matière : ")
+        lire(description)
+        retourne new Matiere(nom, description)
+    Fin
+
+    // FIX : sélection du type de ressource (manquait dans GroupeView)
+    public static fonction selectTypeRessource() : TypeRessource
+    var choix : entier
+    Debut
+        ecrire("Type de ressource :")
+        ecrire("1. Cours")
+        ecrire("2. Exercice")
+        ecrire("3. TD")
+        ecrire("4. TP")
+        ecrire("5. Rapport")
+        ecrire("6. Autre")
+        faire
+            lire(choix)
+        tantque (choix < 1 ou choix > 6)
+        cas (choix) vaut
+            1: retourne TypeRessource.COURS
+            2: retourne TypeRessource.EXO
+            3: retourne TypeRessource.TD
+            4: retourne TypeRessource.TP
+            5: retourne TypeRessource.RAPPORT
+            6: retourne TypeRessource.AUTRE
+        finselon
+    Fin
+
+    public static procedure afficherRessources(D ressources : TabRessource, n : entier)
+    var i : entier
+    Debut
+        ecrire("=== Liste des ressources ===")
+        pour (i <-- 1; i <= n; i++) faire
+            ecrire(i, ". ", ressources[i].toString())
+        finpour
+    Fin
+FinClasse

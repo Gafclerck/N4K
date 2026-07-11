@@ -1,0 +1,77 @@
+********* USER ***********
+Type User = Enumeration 
+    ETUDIANT, ADMIN
+
+Type User = Classe
+Debut
+    prive nom : chaine
+    prive prenom : chaine
+    prive nomUtilisateur : chaine
+    prive mdp : chaine
+    prive tel : chaine
+    prive Role : UserRole
+    
+    // Constructeur
+    public fonction User()
+    Debut
+    Fin
+    public fonction User(n : chaine, p : chaine, nu : chaine, m : chaine, t : chaine)
+    Debut
+        this.nom <-- n
+        this.prenom <-- p
+        this.nomUtilisateur <-- nu
+        this.mdp <-- m
+        this.tel <-- t
+        this.Role <-- UserRole.ETUDIANT
+    Fin
+
+    // Getters
+    public fonction getNom() : chaine
+    Debut
+        retourne this.nom
+    Fin
+    public fonction getPrenom() : chaine
+    Debut
+        retourne this.prenom
+    Fin
+    public fonction getNomUtilisateur() : chaine
+    Debut
+        retourne this.nomUtilisateur
+    Fin
+    public fonction getMdp() : chaine
+    Debut
+        retourne this.mdp
+    Fin
+    public fonction getTel() : chaine
+    Debut
+        retourne this.tel
+    Fin
+
+    // Setters
+    public procedure setNom(n : chaine)
+    Debut
+        this.nom <-- n
+    Fin
+    public procedure setPrenom(p : chaine)
+    Debut
+        this.prenom <-- p
+    Fin
+    public procedure setNomUtilisateur(nu : chaine)
+    Debut
+        this.nomUtilisateur <-- nu
+    Fin
+    public procedure setMdp(m : chaine)
+    Debut
+        this.mdp <-- m
+    Fin
+    public procedure setTel(t : chaine)
+    Debut
+        this.tel <-- t
+    Fin
+
+    // REPRESENTATION
+    public fonction toString() : chaine
+    Debut
+        retourne "Nom : " + this.nom + "Prenom : " + this.prenom + "Nom d'utilisateur : " + this.nomUtilisateur + "Mot de passe : " + this.mdp + "Telephone : " + this.tel
+    Fin
+FinClasse
