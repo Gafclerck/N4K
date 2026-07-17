@@ -53,6 +53,7 @@ Avant le développement, une maquette complète de l'application a été conçue
 
 Le prototype est disponible ici :
 
+https://www.figma.com/design/S1Jw4pjpspAywyjumIxIOd/N4K?node-id=0-1&t=l1LyYbk57ebcRtx6-1
 https://www.figma.com/design/S1Jw4pjpspAywyjumIxIOd/N4K?m=auto&t=AyLaV1IlzoSd4CKx-1
 
 Le prototype couvre notamment :
@@ -103,7 +104,7 @@ La dernière étape consiste au développement complet de la plateforme avec per
 - PDO
 - HTML
 - Tailwind CSS
-- Javascript (Peu utilise pas pour la logique juste pour certains types de view un peucomplexe )
+- Javascript (Peu utilise pas pour la logique juste pour certains types de view un peu complexe )
 
 ---
 
@@ -251,7 +252,7 @@ L'IA a également été utilisée comme support documentaire pour approfondir :
 - les extensions autorisées ;
 - les contrôles de sécurité lors de l'envoi des fichiers.
 
-# Ce que j'ai pas pu faire dans ces delai et pervoi de faire ( je le mettrai dans la brache afterExam )
+# Ce que j'ai pas pu faire dans ces delai et pervoi de faire : branche v2
 
 Plusieurs fonctionnalités sont prévues pour les prochaines versions :
 
